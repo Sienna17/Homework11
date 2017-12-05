@@ -1,0 +1,61 @@
+
+for (i in 1:n_years){
+  cur_year<-years[i]
+  d<-dplyr::filter(d,YEAR==cur_year)
+  
+  events <- dplyr::select(d, Longitude, Latitude)
+  
+  mt <- ManyTiles(min_lat, max_lat, min_long, max_long, 10, 5, events)
+  browser()
+  
+  number_tiles <- get_number_tiles.ManyTiles(mt)
+  num_events <- rep(NA, number_tiles)  #so i can get the number of events for each tile
+  for (i in 1:number_tiles) {
+    current_tile <- get_tile.ManyTiles(mt, i)
+    current_events <- get_events.Tile(current_tile)
+    num_events[i] <- nrow(current_events)
+    #now find top 5 boxes and plot it 
+  }
+  numbers<-c(1:50)
+  browser()
+  df<-data.frame(numbers=numbers,num_events=num_events,stringsAsFactors = FALSE)
+  df <- df[order(df$num_events),] 
+  
+  last_value<-number_tiles
+  first_value<-last_value-5
+  
+  top_5<-df$numbers[first_value:last_value]
+  
+  tile1 <- get_tile.ManyTiles(mt, top_5[1]) 
+  tile2 <- get_tile.ManyTiles(mt, top_5[2]) #HOW COME THE EVENTS LIST IS EMPTY
+  tile3 <- get_tile.ManyTiles(mt, top_5[3])
+  tile4 <- get_tile.ManyTiles(mt, top_5[4])
+  tile5 <- get_tile.ManyTiles(mt, top_5[5])
+  
+  tile_list <- list(tile1,tile2,tile3,tile4,tile5)
+  df_list <- as.list(rep(NA, 5))
+  for (i in 1:5) {
+    df_list[[i]] <- Tile_to_rectangle_df(tile_list[[i]]) #data frame form so that i can do the map
+  }
+  df <- do.call(rbind, df_list)
+  
+  events1<-get_events.Tile(tile1)
+  events2<-get_events.Tile(tile2)
+  events3<-get_events.Tile(tile3)
+  events4<-get_events.Tile(tile4)
+  events5<-get_events.Tile(tile5)
+  
+  events_all <- rbind(events1, events2, events3, events4, events5)
+  
+  
+  m <- get_googlemap("vancouver ca", zoom = 11)
+  p <- ggmap(m)
+  p <- p + geom_rect(mapping=aes(xmin=min_long, xmax=max_long,
+                                 ymin=min_lat, ymax=max_lat),
+                     data=df, fill=NA, size=1, color="red",
+                     inherit.aes=FALSE)
+  p<-p+geom_point(mapping=aes(x=Longitude,y=Longitude),color="blue",
+                  data=events_all)
+  
+  print(p) 
+}
