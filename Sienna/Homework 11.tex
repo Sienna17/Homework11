@@ -1,0 +1,44 @@
+\documentclass{article}
+
+\usepackage{amssymb, amsmath, amsthm, verbatim}
+
+\begin{document}
+
+
+\renewcommand{\a}{\textbf{a}}
+\renewcommand{\b}{\textbf{b}}
+\renewcommand{\d}{\textbf{d}}
+\newcommand{\e}{\textbf{e}}
+
+\large
+
+\begin{center}
+\textbf{Homework \# 11} \\  
+MATH 110\\
+Due Dec 6 (Wed)
+\end{center}
+
+\medskip
+
+You will submit this homework through github.   To start, go to my repository SLeviyang/Homework11 and fork the repository (click on the fork button on upper right).  This will create a Homework11 repo in your github account.   Then, clone your Homework11 repo to a directory on your computer.  For concreteness, say your repo directory is called \verb+my_HW11/+.   Complete the homework assignment, but do everything within two folders \verb+my_HW11/name_problem1/+ and \verb+my_HW11/name_problem2+, where name is your name.   Be sure to occasionally commit your work to git and push it to your github repo.   When you are done, push everything to your github repo and then send me a pull request (button at center top of your github repo page).  
+
+\vspace{.5cm}
+
+To commit multipe files in a directory, you will find using the bash wildcard syntax useful:
+\begin{verbatim}
+http://www.linfo.org/wildcard.html
+\end{verbatim}
+
+\vspace{.5cm}
+
+\begin{enumerate}
+\item Write an R function \verb+copy_dir(dirname, prefix_string)+ that creates a copy of a directory, but with the directory name and all files within it changed to include a prefix string.  Specifically, \verb+dirname+ is the path to a directory and \verb+prefix_string+ is the prefix string.  For example, consider the function call \verb+copy_dir("hwk11/my_test_dir", "plus_")+.   Suppose the directory \verb+hwk11/my_test_dir/+ exists and contains two files: \verb+file1+ and \verb+file2+.  Then, the function should create a directory \verb+hwk11/plus_my_test_dir/+ with two files \verb+plus_file1+ and \verb+plus_file2+. 
+\begin{enumerate}
+\item Write this function using a System call to the bash shell.
+\item Write this function without a system call, but using the R functions file.create and dir.create.  (If you are just creating new files, then it is more convenient to use file.create and dir.create rather than using the bash shell, but the bash shell is much more powerful and allows you to do many tasks beyond simply file creation.)  Call this second version, \verb+copy_dir2+.  
+\end{enumerate}
+
+\item Consider the Vancouver crime dataset.  Your goal is to split Vancouver into a grid of rectangular regions and then, for each region, plot the number of break-in crimes that occurred there within a given year.  For each year, you should produce an image of Vancouver with the 5 regions with the highest number of break-ins identified using a rectangle, the location of the break-ins in those 4 regions identified using points, and the total number of break-ins within each of those 5 regions shown as a number.   Design and code objects that will make this analysis possible.  Split your workflow as usual into R, data and analysis folders.  IMPORTANT:  DO NOT INCLUDE THE CSV DATAFILE IN YOUR GIT COMMITS.  THIS WILL CAUSE PROBLEMS WHEN YOU PUSH TO GITHUB BECAUSE OF MEMORY LIMITATIONS FOR GITHUB ACCOUNTS.
+\end{enumerate}
+
+\end{document}
