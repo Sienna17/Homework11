@@ -86,12 +86,12 @@ if (!exists("m")) {  # loading the map takes a while, so do it only once
   m <- get_googlemap("vancouver ca", zoom = 11)
 }
 
-p <- ggmap(m)
-p <- p + geom_rect(mapping=aes(xmin=min_long, xmax=max_long,
-                               ymin=min_lat, ymax=max_lat,color=crime_type),
-                    data=df, fill=NA, size=1,
-                   inherit.aes=FALSE)
-print(p)
+# p <- ggmap(m)
+# p <- p + geom_rect(mapping=aes(xmin=min_long, xmax=max_long,
+#                                ymin=min_lat, ymax=max_lat,color=crime_type),
+#                     data=df, fill=NA, size=1,
+#                    inherit.aes=FALSE)
+# print(p)
 
 
 #MAPPING NOTES

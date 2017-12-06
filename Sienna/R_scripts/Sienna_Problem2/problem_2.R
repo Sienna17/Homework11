@@ -1,4 +1,8 @@
 
+d<-load_filtered_dataset()
+years<-unique(d$YEAR)
+n_years<-length(years)
+
 for (i in 1:n_years){
   cur_year<-years[i]
   d<-dplyr::filter(d,YEAR==cur_year)
@@ -6,7 +10,7 @@ for (i in 1:n_years){
   events <- dplyr::select(d, Longitude, Latitude)
   
   mt <- ManyTiles(min_lat, max_lat, min_long, max_long, 10, 5, events)
-  browser()
+ 
   
   number_tiles <- get_number_tiles.ManyTiles(mt)
   num_events <- rep(NA, number_tiles)  #so i can get the number of events for each tile
@@ -17,7 +21,7 @@ for (i in 1:n_years){
     #now find top 5 boxes and plot it 
   }
   numbers<-c(1:50)
-  browser()
+ 
   df<-data.frame(numbers=numbers,num_events=num_events,stringsAsFactors = FALSE)
   df <- df[order(df$num_events),] 
   
@@ -48,14 +52,37 @@ for (i in 1:n_years){
   events_all <- rbind(events1, events2, events3, events4, events5)
   
   
-  m <- get_googlemap("vancouver ca", zoom = 11)
+  m <- get_googlemap("vancouver ca", zoom = 12)
   p <- ggmap(m)
   p <- p + geom_rect(mapping=aes(xmin=min_long, xmax=max_long,
                                  ymin=min_lat, ymax=max_lat),
                      data=df, fill=NA, size=1, color="red",
                      inherit.aes=FALSE)
-  p<-p+geom_point(mapping=aes(x=Longitude,y=Longitude),color="blue",
+  p<-p+geom_point(mapping=aes(x=Longitude,y=Latitude),color="blue",
+                  size=.5,
                   data=events_all)
   
+  
   print(p) 
+  browser()
+  
+   
+  final_vector<-rep(NA,5)
+  
+  x<-get_num_events.Tile(tile1)
+  final_vector[1]<-x
+  y<-get_num_events.Tile(tile2)
+  final_vector[2]<-y
+  z<-get_num_events.Tile(tile3)
+  final_vector[3]<-z
+  a<-get_num_events.Tile(tile4)
+  final_vector[4]<-a
+  b<-get_num_events.Tile(tile5)
+  final_vector[5]<-b
+  print(final_vector)
+  browser()
+  
 }
+
+
+
